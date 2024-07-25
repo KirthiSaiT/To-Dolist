@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <title>TO DO List</title>
+    <title>TO Do List</title>
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
@@ -45,65 +45,114 @@
             </div>
           </div>
         </div>
-    </nav>
+      </nav>
 
-    <div id="overlay" style="display:none;"></div>
+      <div id="overlay"></div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="popup" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+      <!--Card-->
+      <div class="modal" tabindex="-1" id="popup">
         <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="formContainer">
-                        <div class="mb-3">
-                            <label for="task-input" class="form-label">Enter your Task</label>
-                            <input type="text" class="form-control" id="task-input" aria-describedby="emailHelp">
-                            <div id="emailHelp" class="form-text">Add the task that you want to complete.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="textarea-input" class="form-label">Enter the description of your task</label>
-                            <textarea class="form-control" id="textarea-input" rows="3"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="save-changes">Save changes</button>
-                </div>
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <div class="modal-body">
+              <form id="formContainer">
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Enter your Task</label>
+                  <input type="text" class="form-control" id="task-input" aria-describedby="emailHelp">
+                  <div id="emailHelp" class="form-text">Add the task that you want to complete.</div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Enter the description of your task</label>
+                    <textarea class="form-control" id="textarea-input" rows="3"></textarea>
+                  </div>
+                
+                
+              </form>
+            <div class="modal-footer"id="myModal">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary"id="save-changes">Save changes</button>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
+     
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="index.js">
+        function createAndDisplayModal(task,textarea){
+    const ModalHTML=`<div class="modal" tabindex="-1" id="popup">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="modal-body">
+                <p><strong>Task:</strong> ${task}</p>
+                <p><strong>Description:</strong> ${description}</p>
+              </div>
+            <div class="modal-footer"id="myModal">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary"id="save-changes">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    
+      const existingModal = document.getElementById('popup');
+     
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
+    
+
+        document.body.insertAdjacentHTML('beforeend', ModalHTML);
+    }
+        document.getElementById('save-changes').addEventListener('click',function(){
+            const task=document.getElementById('task-input').value();
+            const textarea=document.getElementById('textarea-input').value();
+            
+        });
+
+        const modalElement = document.getElementById('popup');
+      const modalInstance = new bootstrap.Modal(modalElement);
+      modalInstance.show();
+
+         document.getElementById('save-changes').addEventListener('click',function(){
+          document.getElementById('formContainer').style.display='none';
+          
+
+          
+         });
+
+      
+        
+
+
+      </script>
+      <script>
         document.getElementById('addNewButton').addEventListener('click', function() {
-            const modalElement = document.getElementById('popup');
-            const modalInstance = new bootstrap.Modal(modalElement);
-            modalInstance.show();
-        });
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('popup').style.display = 'block';
+});
 
-        document.getElementById('save-changes').addEventListener('click', function() {
-            const task = document.getElementById('task-input').value;
-            const description = document.getElementById('textarea-input').value;
+document.getElementById('closePopupButton').addEventListener('click', function() {
+    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('popup').style.display = 'none';
+});
 
-            // Display values on the page or handle them as needed
-            console.log('Task:', task);
-            console.log('Description:', description);
 
-            // Hide the form container
-            document.getElementById('formContainer').style.display = 'none';
+      </script>
+      
 
-            // Optionally, you can also hide the modal
-            const modalElement = document.getElementById('popup');
-            const modalInstance = bootstrap.Modal.getInstance(modalElement);
-            modalInstance.hide();
-        });
-    </script>
+      
 </body>
 </html>
+
+
+
+
+
+
