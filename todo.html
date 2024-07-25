@@ -78,10 +78,40 @@
         </div>
     </div>
 
+    <div>
+      <div id="savedData" class="mt-4">
+        <h3>Saved Task Data:</h3>
+        <!-- The card will be added here by JavaScript -->
+      </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        function createAndDisplayModal(task, description) {
+            // Create card HTML structure with task and description
+            const cardHTML = `
+                <div class="card mt-3">
+                  <div class="card-body">
+                    <form>
+                      <div class="mb-3">
+                        <label for="card-task-input" class="form-label">Task</label>
+                        <input type="text" class="form-control" id="card-task-input" value="${task}" readonly>
+                      </div>
+                      <div class="mb-3">
+                        <label for="card-description-input" class="form-label">Description</label>
+                        <textarea class="form-control" id="card-description-input" rows="3" readonly>${description}</textarea>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+            `;
+            
+            // Insert the card into the savedData section
+            document.getElementById('savedData').innerHTML = cardHTML;
+        }
+
         document.getElementById('addNewButton').addEventListener('click', function() {
             const modalElement = document.getElementById('popup');
             const modalInstance = new bootstrap.Modal(modalElement);
@@ -103,6 +133,8 @@
             const modalElement = document.getElementById('popup');
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
             modalInstance.hide();
+
+            createAndDisplayModal(task, description);
         });
 
         // Event to reset form visibility when modal is hidden
