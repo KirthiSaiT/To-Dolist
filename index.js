@@ -1,23 +1,26 @@
 function createAndDisplayModal(task, description, cardId = `card-${Date.now()}`) {
     const cardHTML = `
-        <div class="col-sm-4 task-card" id="${cardId}">
-            <div class="card">
+        <div class="col-sm-4 task-card" id="${cardId}" style="animation: fadeIn 0.5s;">
+            <div class="card h-100 border-primary">
+                <div class="card-header bg-primary text-white">
+                    Task Details
+                </div>
                 <div class="card-body d-flex flex-column">
                     <form>
                         <div class="mb-3">
                             <label for="card-task-input-${cardId}" class="form-label">Task</label>
-                            <input type="text" class="form-control" id="card-task-input-${cardId}" value="${task}" readonly>
+                            <input type="text" class="form-control border-primary" id="card-task-input-${cardId}" value="${task}" readonly>
                         </div>
                         <div class="mb-3">
                             <label for="card-description-input-${cardId}" class="form-label">Description</label>
-                            <textarea class="form-control" id="card-description-input-${cardId}" rows="2" readonly>${description}</textarea>
+                            <textarea class="form-control border-primary" id="card-description-input-${cardId}" rows="2" readonly>${description}</textarea>
                         </div>
                     </form>
                     <div class="mt-auto d-flex justify-content-end">
-                        <button class="btn btn-outline-danger me-2 edit-button" data-card-id="${cardId}">
+                        <button type="button" class="btn btn-outline-warning me-2 edit-button" data-card-id="${cardId}">
                             <i class="fa-solid fa-file-pen"></i> Edit
                         </button>
-                        <button class="btn btn-outline-danger delete-button" data-card-id="${cardId}">
+                        <button type="button" class="btn btn-outline-danger delete-button" data-card-id="${cardId}">
                             <i class="fa-solid fa-trash"></i> Delete
                         </button>
                     </div>
@@ -25,8 +28,12 @@ function createAndDisplayModal(task, description, cardId = `card-${Date.now()}`)
             </div>
         </div>
     `;
+
     document.getElementById('savedData').insertAdjacentHTML('beforeend', cardHTML);
 }
+
+
+
 
 // Function to save all tasks to localStorage
 function saveTasksToLocalStorage() {
