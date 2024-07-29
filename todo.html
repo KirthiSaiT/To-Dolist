@@ -7,7 +7,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>TO DO List</title>
-   
 </head>
 <body>
     <!--NAVBAR!-->
@@ -40,7 +39,8 @@
                 </form>
                 <div class="create">
                     <button type="button" class="btn btn-outline-danger ms-5" id="addNewButton">
-                        <i class="fa-solid fa-plus"></i> Add New</button>
+                        <i class="fa-solid fa-plus"></i> Add New
+                    </button>
                 </div>
             </div>
         </div>
@@ -97,30 +97,27 @@
                         <div class="card-body d-flex flex-column">
                             <form>
                                 <div class="mb-3">
-                                    <label for="card-task-input" class="form-label">Task</label>
-                                    <input type="text" class="form-control" id="card-task-input" value="${task}" readonly>
+                                    <label for="card-task-input-${cardId}" class="form-label">Task</label>
+                                    <input type="text" class="form-control" id="card-task-input-${cardId}" value="${task}" readonly>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="card-description-input" class="form-label">Description</label>
-                                    <textarea class="form-control" id="card-description-input" rows="2" readonly>${description}</textarea>
+                                    <label for="card-description-input-${cardId}" class="form-label">Description</label>
+                                    <textarea class="form-control" id="card-description-input-${cardId}" rows="2" readonly>${description}</textarea>
                                 </div>
                             </form>
-                            <div class="mt-auto d-flex justify-content-end ">
-                                <button class="btn btn-outline-danger delete-button me-3" data-card-id="${cardId}">
-                                    <i class="fa-solid fa-trash"></i>
-                                    
+                            <div class="mt-auto d-flex justify-content-end">
+                                <button class="btn btn-outline-danger me-2 edit-button" data-card-id="${cardId}">
+                                    <i class="fa-solid fa-file-pen"></i> Edit
                                 </button>
-                                <button class="btn btn-outline-danger edit-button" data-card-id="${cardId}">
-                                    <i class="fa-solid fa-file-pen"></i>
-                                    
+                                <button class="btn btn-outline-danger delete-button" data-card-id="${cardId}">
+                                    <i class="fa-solid fa-trash"></i> Delete
                                 </button>
-                                
                             </div>
                         </div>
                     </div>
                 </div>
             `;
-            
+
             // Append the card into the savedData section
             document.getElementById('savedData').insertAdjacentHTML('beforeend', cardHTML);
         }
@@ -139,7 +136,7 @@
             console.log('Task:', task);
             console.log('Description:', description);
 
-            // Optionally, you can also hide the modal
+            // Hide the modal
             const modalElement = document.getElementById('popup');
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
             modalInstance.hide();
@@ -152,8 +149,47 @@
             document.getElementById('formContainer').reset();
         });
 
-        // Event delegation for delete buttons
+        // Event delegation for edit, save, and delete buttons
         document.getElementById('savedData').addEventListener('click', function(event) {
+            const target = event.target;
+            if (target.classList.contains('edit-button') || target.closest('.edit-button')) {
+                const button = target.closest('.edit-button');
+                const cardId = button.getAttribute('data-card-id');
+
+                // Get the current task and description inputs
+                const taskInput = document.getElementById(`card-task-input-${cardId}`);
+                const descriptionInput = document.getElementById(`card-description-input-${cardId}`);
+
+                if (button.classList.contains('edit-button')) {
+                    // Set the inputs to editable
+                    taskInput.removeAttribute('readonly');
+                    descriptionInput.removeAttribute('readonly');
+
+                    // Change the button text to "Save"
+                    button.innerHTML = '<i class="fa-solid fa-save"></i> Save';
+                    button.classList.remove('edit-button');
+                    button.classList.add('save-button');
+                  } else if (button.classList.contains('save-button')) {
+                    // Get the updated values
+                    const updatedTask = taskInput.value;
+                    const updatedDescription = descriptionInput.value;
+
+                    // Set the inputs back to readonly
+                    taskInput.setAttribute('readonly', true);
+                    descriptionInput.setAttribute('readonly', true);
+
+                    // Change the button text back to "Edit"
+                    button.innerHTML = '<i class="fa-solid fa-file-pen"></i> Edit';
+                    button.classList.remove('save-button');
+                    button.classList.add('edit-button');
+
+                    // Optionally, you might want to update any backend or data source with the updated values here
+                    console.log('Updated Task:', updatedTask);
+                    console.log('Updated Description:', updatedDescription);
+                }
+            }
+
+            // Event delegation for delete buttons
             if (event.target.classList.contains('delete-button') || event.target.closest('.delete-button')) {
                 const button = event.target.closest('.delete-button');
                 const cardId = button.getAttribute('data-card-id');
@@ -163,3 +199,4 @@
     </script>
 </body>
 </html>
+
