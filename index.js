@@ -35,7 +35,6 @@ function createAndDisplayModal(task, description, cardId = `card-${Date.now()}`)
 
 
 
-// Function to save all tasks to localStorage
 function saveTasksToLocalStorage() {
     const tasks = [];
     document.querySelectorAll('.task-card').forEach(card => {
@@ -47,20 +46,20 @@ function saveTasksToLocalStorage() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
-// Function to load all tasks from localStorage
+
 function loadTasksFromLocalStorage() {
     const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     tasks.forEach(taskObj => createAndDisplayModal(taskObj.task, taskObj.description, taskObj.id));
 }
 
-        // Add new button click event
+
         document.getElementById('addNewButton').addEventListener('click', function() {
             const modalElement = document.getElementById('popup');
             const modalInstance = new bootstrap.Modal(modalElement);
             modalInstance.show();
         });
 
-        // Save changes button click event
+        
         document.getElementById('save-changes').addEventListener('click', function() {
             const task = document.getElementById('task-input').value;
             const description = document.getElementById('textarea-input').value;
@@ -78,13 +77,12 @@ function loadTasksFromLocalStorage() {
             saveTasksToLocalStorage();
         });
 
-        // Reset form when modal is hidden
+        
         document.getElementById('popup').addEventListener('hidden.bs.modal', function () {
             document.getElementById('formContainer').reset();
         });
 
-        // Edit, save, and delete button event delegation
-        // Edit, save, and delete button event delegation
+    
 document.getElementById('savedData').addEventListener('click', function(event) {
     const target = event.target;
     if (target.classList.contains('edit-button') || target.classList.contains('save-button') || target.closest('.edit-button') || target.closest('.save-button')) {
@@ -94,24 +92,24 @@ document.getElementById('savedData').addEventListener('click', function(event) {
         const descriptionInput = document.getElementById(`card-description-input-${cardId}`);
 
         if (button.classList.contains('edit-button')) {
-            // Enable editing
+            
             taskInput.removeAttribute('readonly');
             descriptionInput.removeAttribute('readonly');
 
-            // Change the button text to "Commit"
+            
             button.innerHTML = '<i class="fa-solid fa-save"></i> Commit';
             button.classList.remove('edit-button');
             button.classList.add('save-button');
         } else if (button.classList.contains('save-button')) {
-            // Save updated values
+            
             const updatedTask = taskInput.value;
             const updatedDescription = descriptionInput.value;
 
-            // Disable editing
+            
             taskInput.setAttribute('readonly', true);
             descriptionInput.setAttribute('readonly', true);
 
-            // Change the button text back to "Edit"
+           
             button.innerHTML = '<i class="fa-solid fa-file-pen"></i> Edit';
             button.classList.remove('save-button');
             button.classList.add('edit-button');
@@ -119,7 +117,7 @@ document.getElementById('savedData').addEventListener('click', function(event) {
             console.log('Updated Task:', updatedTask);
             console.log('Updated Description:', updatedDescription);
 
-            // Save updated tasks to localStorage
+            
             saveTasksToLocalStorage();
         }
     }
@@ -131,13 +129,13 @@ document.getElementById('savedData').addEventListener('click', function(event) {
         
         if (cardElement) {
             cardElement.remove();
-            // Save updated tasks to localStorage after deletion
+            
             saveTasksToLocalStorage();
         }
     }
 });
 
-        // Search functionality
+        
         document.getElementById('search-button').addEventListener('click', function() {
             const searchTerm = document.getElementById('search-input').value.toLowerCase();
             const taskCards = document.querySelectorAll('.task-card');
@@ -153,7 +151,7 @@ document.getElementById('savedData').addEventListener('click', function(event) {
             });
         });
 
-        // Optional: Clear search results when input is cleared
+        
         document.getElementById('search-input').addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase();
             const taskCards = document.querySelectorAll('.task-card');
@@ -169,7 +167,7 @@ document.getElementById('savedData').addEventListener('click', function(event) {
             });
         });
 
-        // Load tasks when the page loads
+      
         document.addEventListener('DOMContentLoaded', function() {
             loadTasksFromLocalStorage();
         });
